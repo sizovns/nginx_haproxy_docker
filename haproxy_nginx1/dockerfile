@@ -1,0 +1,16 @@
+FROM	ubuntu:16.04
+MAINTAINER	woltes
+ENV DEBIAN_FRONTEND	noninteractive 
+
+RUN apt-get update && \
+    apt-get -y upgrade > /dev/null && \
+    apt-get -y install nginx haproxy
+
+ADD start.sh /opt/start.sh
+ADD default /etc/nginx/sites-available/default
+ADD haproxy.cfg /etc/haproxy/haproxy.cfg 
+ADD index.html /usr/share/nginx/html/index.html 
+
+EXPOSE	80/tcp
+
+ENTRYPOINT	["/opt/start.sh"]
